@@ -140,16 +140,21 @@ class ScraperRunner:
         
         try:
             scraper = self.available_scrapers['investing']()
-            result = scraper.scrape_all_commodities(commodities, years)
+            # Investing scraper now uses yfinance and fixed tickers, supports 'period'
+            result = scraper.scrape_all_commodities(period=f"{years}y" if years <= 10 else "max")
             
             output_file = scraper.save_to_json(str(self.output_dir))
             
             self.results['investing'] = {
                 'status': 'success',
-                'records': result.get('total_records', 0),
+                'records': len(scraper.data) * 100, # Approximate or need better count from result
                 'output_file': output_file
             }
-            logger.info(f"Investing scraper completed: {result.get('total_records', 0)} records")
+            # Calculate total records if result is a dict of lists
+            total_records = sum(len(records) for records in result.values())
+            
+            self.results['investing']['records'] = total_records
+            logger.info(f"Investing scraper completed: {total_records} records")
             
         except Exception as e:
             logger.error(f"Investing scraper failed: {e}")
@@ -176,16 +181,19 @@ class ScraperRunner:
         
         try:
             scraper = self.available_scrapers['agmarknet']()
-            result = scraper.scrape_all_commodities(commodities, days)
+            # Real Agmarknet scraper defines its own commodity list internally for reliability
+            result = scraper.scrape_all_commodities()
             
             output_file = scraper.save_to_json(str(self.output_dir))
             
+            total_records = sum(len(records) for records in result.values())
+            
             self.results['agmarknet'] = {
                 'status': 'success',
-                'records': result.get('total_records', 0),
+                'records': total_records,
                 'output_file': output_file
             }
-            logger.info(f"AGMARKNET scraper completed: {result.get('total_records', 0)} records")
+            logger.info(f"AGMARKNET scraper completed: {total_records} records")
             
         except Exception as e:
             logger.error(f"AGMARKNET scraper failed: {e}")

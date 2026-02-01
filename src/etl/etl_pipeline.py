@@ -111,17 +111,30 @@ class ETLPipeline:
                 with open(json_file) as f:
                     data = json.load(f)
                 
-                # Extract source
-                source = data.get('source', 'Unknown')
+                # Case 1: Direct list of records
+                if isinstance(data, list):
+                    all_records.extend(data)
                 
-                # Extract records from commodities dict
-                commodities_data = data.get('commodities', {})
-                for commodity_name, records in commodities_data.items():
-                    if isinstance(records, list):
-                        for record in records:
-                            record['source'] = source
-                            record['commodity'] = commodity_name
-                            all_records.append(record)
+                # Case 2: Dict of lists (keys are commodities)
+                elif isinstance(data, dict):
+                    # Check if it has 'commodities' wrapper (old structure/USDA)
+                    if 'commodities' in data:
+                        commodities_data = data['commodities']
+                        source = data.get('source', 'Unknown')
+                        if isinstance(commodities_data, dict):
+                             for comm, recs in commodities_data.items():
+                                 if isinstance(recs, list):
+                                     for r in recs:
+                                         r['source'] = r.get('source', source)
+                                         all_records.append(r)
+                    
+                    # Check if it's a direct mapping (Investing/Agmarknet)
+                    else:
+                        for key, value in data.items():
+                            if isinstance(value, list):
+                                for r in value:
+                                    if isinstance(r, dict):
+                                        all_records.append(r)
                 
                 self.stats['files_processed'] += 1
                 logger.info(f"Extracted from {json_file.name}")
