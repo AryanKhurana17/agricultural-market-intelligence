@@ -1,0 +1,28 @@
+# INNOFarms - Agricultural Market Intelligence System
+# Core dependencies
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# HTTP Requests
+requests>=2.31.0
+
+# Web Scraping
+beautifulsoup4>=4.12.0
+
+# Configuration
+PyYAML>=6.0
+python-dotenv>=1.0.0
+
+# Time Series Analysis
+statsmodels>=0.14.0
+
+# Testing
+pytest>=7.0.0
+
+# Visualization (optional)
+matplotlib>=3.7.0
+
+# Database
+# sqlite3 is included with Python

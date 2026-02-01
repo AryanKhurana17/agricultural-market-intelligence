@@ -1,0 +1,120 @@
+# Production Costs Configuration
+# ================================
+# Cost structure for 5 agricultural commodities per hectare
+# All costs in INR (Indian Rupees)
+
+commodities:
+  wheat:
+    name: "Wheat"
+    category: "Cereals"
+    cycle_days: 120
+    yield_per_hectare: 40  # quintal
+    seasons: ["Rabi"]
+    costs:
+      seeds: 3000
+      fertilizers: 8000
+      pesticides: 2000
+      irrigation: 5000
+      labor: 12000
+      machinery: 8000
+      transport: 2000
+      miscellaneous: 5000
+      total: 45000
+    
+  rice:
+    name: "Rice"
+    category: "Cereals"
+    cycle_days: 150
+    yield_per_hectare: 35  # quintal
+    seasons: ["Kharif"]
+    costs:
+      seeds: 2500
+      fertilizers: 10000
+      pesticides: 3000
+      irrigation: 8000
+      labor: 15000
+      machinery: 10000
+      transport: 2500
+      miscellaneous: 4000
+      total: 55000
+    
+  maize:
+    name: "Maize"
+    category: "Cereals"
+    cycle_days: 100
+    yield_per_hectare: 45  # quintal
+    seasons: ["Kharif", "Rabi"]
+    costs:
+      seeds: 4000
+      fertilizers: 7000
+      pesticides: 2500
+      irrigation: 4000
+      labor: 10000
+      machinery: 7000
+      transport: 2000
+      miscellaneous: 3500
+      total: 40000
+    
+  tomato:
+    name: "Tomato"
+    category: "Vegetables"
+    cycle_days: 90
+    yield_per_hectare: 300  # quintal (higher yield for vegetables)
+    seasons: ["Rabi", "Kharif"]
+    costs:
+      seeds: 8000  # Hybrid seeds are expensive
+      fertilizers: 12000
+      pesticides: 6000
+      irrigation: 10000
+      labor: 25000  # Labor intensive
+      machinery: 5000
+      transport: 5000
+      miscellaneous: 4000
+      total: 75000
+    
+  onion:
+    name: "Onion"
+    category: "Vegetables"
+    cycle_days: 120
+    yield_per_hectare: 200  # quintal
+    seasons: ["Rabi", "Kharif"]
+    costs:
+      seeds: 15000  # Onion sets/seedlings
+      fertilizers: 10000
+      pesticides: 4000
+      irrigation: 8000
+      labor: 20000
+      machinery: 6000
+      transport: 4000
+      miscellaneous: 3000
+      total: 70000
+
+# Market price assumptions (INR per quintal)
+# These are baseline prices - actual prices come from database
+market_prices:
+  wheat: 2500
+  rice: 3200
+  maize: 2000
+  tomato: 2000  # High volatility
+  onion: 2200  # High volatility
+
+# Risk parameters
+risk_factors:
+  weather_risk: 0.15  # 15% chance of weather impact
+  pest_risk: 0.10     # 10% chance of pest damage
+  market_risk: 0.20   # 20% price volatility factor
+  storage_loss: 0.05  # 5% post-harvest loss
+
+# Scoring weights for opportunity ranking
+scoring_weights:
+  profit_margin: 0.30
+  roi: 0.25
+  profit_per_day: 0.20
+  price_stability: 0.15
+  demand_trend: 0.10
+
+# Volatility thresholds
+volatility_thresholds:
+  low: 10    # < 10%
+  medium: 20 # 10-20%
+  high: 100  # > 20%

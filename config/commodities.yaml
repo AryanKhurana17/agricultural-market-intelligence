@@ -1,0 +1,49 @@
+# AGMARKNET Commodity Configuration
+# Maps commodities to their groups for scraping
+
+agmarknet:
+  base_url: "https://agmarknet.gov.in"
+  report_url: "https://agmarknet.gov.in/marketwisespecificcommodityinput"
+  
+  # Rate limiting
+  min_delay_seconds: 2
+  max_delay_seconds: 5
+  
+  # Commodity Groups and their commodities
+  commodities:
+    cereals:
+      - name: "Wheat"
+        commodity_id: "wheat"
+      - name: "Rice"
+        commodity_id: "rice"
+      - name: "Maize"
+        commodity_id: "maize"
+    
+    vegetables:
+      - name: "Tomato"
+        commodity_id: "tomato"
+      - name: "Onion"
+        commodity_id: "onion"
+
+# Database Configuration
+database:
+  path: "database/market_data.db"
+
+# Data Storage
+data:
+  raw_path: "data/raw"
+  
+# Source Reliability Scores (1-10 scale)
+sources:
+  agmarknet:
+    name: "AGMARKNET"
+    url: "https://agmarknet.gov.in"
+    reliability_score: 9
+  usda:
+    name: "USDA NASS"
+    url: "https://quickstats.nass.usda.gov"
+    reliability_score: 10
+  investing:
+    name: "Investing.com"
+    url: "https://www.investing.com/commodities/agricultural"
+    reliability_score: 8

@@ -1,0 +1,12 @@
+# Application Settings
+
+database:
+  path: "database/market_data.db"
+
+logging:
+  level: "INFO"
+
+scraper:
+  rate_limit_min: 2
+  rate_limit_max: 5
+  max_retries: 3
